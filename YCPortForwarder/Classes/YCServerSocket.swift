@@ -14,7 +14,7 @@ protocol YCServerSocketDelegate:class {
 
 
 class YCServerSocket: NSObject {
-    var localSocket:GCDAsyncSocket!
+    private var localSocket:GCDAsyncSocket!
     weak var delegate:YCServerSocketDelegate?
     
     private let port:UInt16!
@@ -30,7 +30,7 @@ class YCServerSocket: NSObject {
     init(port inPort:UInt16 = 0) {
         port = inPort
         super.init()
-        localSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
+        localSocket = GCDAsyncSocket(delegate: self, delegateQueue: QueueFactory.getQueue())
     }
     
     func start() throws {

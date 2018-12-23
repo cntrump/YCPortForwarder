@@ -9,10 +9,11 @@
 import CocoaAsyncSocket
 
 class YCTunnelFactory: NSObject {
-    var remoteHost:String
-    var remotePort:UInt16
+    private var remoteHost:String
     
-    var remoteConnectTimeout:TimeInterval = 5
+    private var remotePort:UInt16
+    
+    internal var remoteConnectTimeout:TimeInterval = 5
     
     init(remoteHost host:String, remotePort port:UInt16) {
         remoteHost = host
@@ -23,7 +24,7 @@ class YCTunnelFactory: NSObject {
         let remote = GCDAsyncSocket()
         let tunnel = YCTunnel(client: client, remote: remote)
         remote.delegate = tunnel
-        remote.delegateQueue = DispatchQueue.main
+        remote.delegateQueue = QueueFactory.getQueue()
         do {
             try remote.connect(toHost: remoteHost, onPort: remotePort, withTimeout:remoteConnectTimeout)
             tunnel.delegate = delegate

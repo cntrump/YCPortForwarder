@@ -15,9 +15,10 @@ import CocoaAsyncSocket
 }
 
 class YCTunnel:NSObject {
-    var clientSocket:GCDAsyncSocket
-    var remoteSocket:GCDAsyncSocket
-    var uuid:String
+    private var clientSocket:GCDAsyncSocket
+    private var remoteSocket:GCDAsyncSocket
+    
+    internal var uuid:String
     
     weak var delegate:YCTunnelDelegate?
     
@@ -43,24 +44,19 @@ class YCTunnel:NSObject {
 
 extension YCTunnel:GCDAsyncSocketDelegate {
     func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-        var procceed = false
         if sock == remoteSocket {
             if clientSocket.isConnected {
-                print("disconnecting client")
                 clientSocket.disconnect()
-                procceed = true
             }
         } else if sock == clientSocket {
             if remoteSocket.isConnected {
-                print("disconnecting remote")
                 remoteSocket.disconnect()
-                procceed = true
             }
+        } else {
+            assertionFailure()
         }
         
-        if procceed {
-            delegate?.tunnelDidDisconnect(self)
-        }
+        delegate?.tunnelDidDisconnect(self)
     }
     
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {

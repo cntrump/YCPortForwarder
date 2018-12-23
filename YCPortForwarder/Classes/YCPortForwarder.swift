@@ -16,13 +16,16 @@ import CocoaAsyncSocket
 
 public class YCPortForwarder:NSObject {
     
-    var tunnels = [String:YCTunnel]()
+    private var tunnels = [String:YCTunnel]()
     
-    let server:YCServerSocket
+    private let server:YCServerSocket
     
-    var tunnelFactory:YCTunnelFactory
+    private var tunnelFactory:YCTunnelFactory
     
     public weak var delegate:YCPortForwarderDelegate?
+    
+    public var delegateQueue:DispatchQueue = DispatchQueue.main
+
     
     override init() {fatalError()}
     
@@ -60,11 +63,15 @@ extension YCPortForwarder:YCServerSocketDelegate {
 
 extension YCPortForwarder:YCTunnelDelegate {
     func tunnelDidReadRemoteData(_ tunnel: YCTunnel, data: Data) {
-        delegate?.portForwarderDidReadRemoteData?(self, data: data)
+        delegateQueue.async {
+            self.delegate?.portForwarderDidReadRemoteData?(self, data: data)
+        }
     }
     
     func tunnelDidReadClientData(_ tunnel: YCTunnel, data: Data) {
-        delegate?.portForwarderDidReadClientData?(self, data: data)
+        delegateQueue.async {
+            self.delegate?.portForwarderDidReadClientData?(self, data: data)
+        }
     }
     
     func tunnelDidDisconnect(_ tunnel: YCTunnel) {
