@@ -1,0 +1,23 @@
+PODS:
+  - CocoaAsyncSocket (7.6.3)
+  - YCPortForwarder (0.1.0):
+    - CocoaAsyncSocket
+
+DEPENDENCIES:
+  - YCPortForwarder (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CocoaAsyncSocket
+
+EXTERNAL SOURCES:
+  YCPortForwarder:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  YCPortForwarder: 2aeb9dc7659f1f72d4ad50c39db9d97851468727
+
+PODFILE CHECKSUM: cd392c8b518be065e3f1d37082190b82a5baf367
+
+COCOAPODS: 1.5.3

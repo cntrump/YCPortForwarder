@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'YCPortForwarder_Example' do
+  pod 'YCPortForwarder', :path => '../'
+
+  target 'YCPortForwarder_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
