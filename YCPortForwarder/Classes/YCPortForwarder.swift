@@ -16,7 +16,9 @@ import CocoaAsyncSocket
 
 public class YCPortForwarder:NSObject {
     
-    private var tunnels = [String:YCTunnel]()
+    private var _tunnels = [String:YCTunnel]()
+    
+    private let tunnelDictThread = DispatchQueue(label: "YCPortForwarder.tunnelDictThread", qos: .default, attributes: DispatchQueue.Attributes.concurrent)
     
     private let server:YCServerSocket
     
@@ -40,7 +42,6 @@ public class YCPortForwarder:NSObject {
     public func start() -> UInt16? {
         do {
             try server.start()
-            print(server.listenPort)
         } catch {
             return nil
         }
@@ -50,11 +51,26 @@ public class YCPortForwarder:NSObject {
     
 }
 
+extension YCPortForwarder {
+    func setTunnel(uuid:String,tunnel:YCTunnel?) {
+        tunnelDictThread.async(flags: .barrier) {
+            self._tunnels[uuid] = tunnel
+        }
+    }
+    
+    func storeTunnel(_ tunnel:YCTunnel) {
+        setTunnel(uuid: tunnel.uuid, tunnel: tunnel)
+    }
+    
+    func removeTunnel(_ tunnel:YCTunnel) {
+        setTunnel(uuid: tunnel.uuid, tunnel: nil)
+    }
+}
 
 extension YCPortForwarder:YCServerSocketDelegate {
     func socket(_ sock: YCServerSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         if let tunnel = tunnelFactory.getTunnel(client: newSocket, delegate: self) {
-            tunnels[tunnel.uuid] = tunnel
+            storeTunnel(tunnel)
         } else {
             newSocket.disconnect()
         }
@@ -75,7 +91,7 @@ extension YCPortForwarder:YCTunnelDelegate {
     }
     
     func tunnelDidDisconnect(_ tunnel: YCTunnel) {
-        tunnels[tunnel.uuid] = nil
+        removeTunnel(tunnel)
     }
     
 }

@@ -36,7 +36,6 @@ class YCTunnel:NSObject {
     }
     
     func remoteDidConnected() {
-        print("did connect")
         clientSocket.readData(withTimeout: -1, tag: 0)
         remoteSocket.readData(withTimeout: -1, tag: 0)
     }
