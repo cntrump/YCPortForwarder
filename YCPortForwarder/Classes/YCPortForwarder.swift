@@ -45,7 +45,7 @@ public class YCPortForwarder:NSObject {
         } catch {
             return nil
         }
-
+        
         return server.listenPort
     }
     
@@ -68,7 +68,7 @@ extension YCPortForwarder {
 }
 
 extension YCPortForwarder:YCServerSocketDelegate {
-    func socket(_ sock: YCServerSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
+    public func socket(_ sock: YCServerSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         if let tunnel = tunnelFactory.getTunnel(client: newSocket, delegate: self) {
             storeTunnel(tunnel)
         } else {

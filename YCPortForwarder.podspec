@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YCPortForwarder'
-  s.version          = '0.1.1'
+  s.version          = '0.1.5'
   s.summary          = 'A simple tcp forwarder example using CocoaAsyncSocket.'
 
   s.description      = <<-DESC
@@ -23,7 +23,6 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.10'
-  s.static_framework = true
   s.swift_version = '4.2'
   
   s.source_files = 'YCPortForwarder/Classes/**/*'
