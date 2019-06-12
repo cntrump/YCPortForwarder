@@ -1,6 +1,6 @@
 PODS:
   - CocoaAsyncSocket (7.6.3)
-  - YCPortForwarder (0.1.0):
+  - YCPortForwarder (0.2.0):
     - CocoaAsyncSocket
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
-  YCPortForwarder: 96aa31f3e62470b4f3e80bdc0585f48052a9575f
+  YCPortForwarder: eca3b34c3df1cbbea3f3fbfb385e9be9953f8ac6
 
 PODFILE CHECKSUM: dcc22ac2f8844b26befe49e09d16c776528de702
 
